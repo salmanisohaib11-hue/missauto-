@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +10,12 @@
     
     <style>
         :root {
-            --primary: #1e293b;
+            --primary: #0f172a;
             --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.3);
+            --whatsapp: #25d366;
             --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.1);
             --text-main: #334155;
-            --bg-body: #f1f5f9;
+            --bg-body: #f8fafc;
         }
 
         * {
@@ -32,13 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* --- Animations --- */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
         /* --- Navigation --- */
         nav {
             position: fixed;
@@ -48,10 +40,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
             z-index: 1000;
-            transition: 0.4s;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .logo {
@@ -81,7 +73,7 @@
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.4)), 
+            background: linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.3)), 
                         url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -92,93 +84,113 @@
         }
 
         .hero-text h1 {
-            font-size: 4.5rem;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             line-height: 1.1;
             margin-bottom: 20px;
         }
 
-        .hero-text p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
         .btn {
-            padding: 15px 35px;
+            padding: 16px 32px;
             background: var(--accent);
             color: var(--white);
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 12px;
             font-weight: 700;
-            transition: 0.4s;
-            box-shadow: 0 10px 20px var(--accent-glow);
+            transition: 0.3s;
             display: inline-block;
+            border: none;
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            background: #1d4ed8;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
         }
 
         /* --- Inventory --- */
-        .section {
-            padding: 100px 10%;
-        }
+        .section { padding: 100px 10%; }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 { font-size: 2.5rem; color: var(--primary); }
+        .section-header { text-align: center; margin-bottom: 60px; }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
 
         .car-card {
             background: var(--white);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            transition: 0.4s;
-            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f1f5f9;
         }
 
-        .car-card:hover {
-            transform: translateY(-15px);
-        }
+        .car-card:hover { transform: translateY(-12px); }
+
+        .car-img-container { position: relative; overflow: hidden; }
 
         .car-img {
             width: 100%;
-            height: 200px;
+            height: 240px;
             object-fit: cover;
+            transition: 0.5s;
         }
 
-        .car-info {
-            padding: 25px;
-        }
+        .car-card:hover .car-img { transform: scale(1.1); }
 
-        .car-info h3 { margin-bottom: 10px; color: var(--primary); }
+        .car-info { padding: 25px; }
 
-        .tag {
-            display: inline-block;
-            padding: 5px 12px;
-            background: #e2e8f0;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            font-weight: 600;
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         .price {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: var(--accent);
-            margin-bottom: 15px;
+            margin: 10px 0;
+        }
+
+        .specs {
+            display: flex;
+            gap: 15px;
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* --- WhatsApp Floating Button --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--whatsapp);
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            z-index: 2000;
+            transition: 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(10deg);
         }
 
         /* --- Contact --- */
@@ -187,59 +199,59 @@
             grid-template-columns: 1fr 1fr;
             gap: 50px;
             background: var(--white);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            padding: 60px;
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.03);
         }
 
-        .contact-details h3 { font-size: 2rem; margin-bottom: 20px; }
-
-        .contact-item {
+        .contact-icon-box {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 25px;
+            color: var(--text-main);
+            text-decoration: none;
         }
 
-        .contact-item i {
-            width: 50px;
-            height: 50px;
-            background: var(--accent-glow);
+        .contact-icon-box i {
             color: var(--accent);
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            background: #eff6ff;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            font-size: 1.2rem;
+            border-radius: 10px;
         }
 
         .form-input {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             margin-bottom: 20px;
             border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            outline: none;
+            border-radius: 12px;
+            background: #fcfcfd;
         }
 
-        .form-input:focus { border-color: var(--accent); }
-
-        /* --- Footer --- */
         footer {
             background: var(--primary);
             color: var(--white);
-            padding: 50px 10%;
+            padding: 60px 10%;
             text-align: center;
         }
 
         @media (max-width: 768px) {
-            .hero-text h1 { font-size: 2.8rem; }
-            .contact-container { grid-template-columns: 1fr; }
+            .contact-container { grid-template-columns: 1fr; padding: 30px; }
             .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
+
+    <a href="https://wa.me/212663198161?text=Bonjour%20Miniss%20Auto,%20je%20suis%20intéressé%20par%20une%20voiture" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <nav id="navbar">
         <a href="#" class="logo">MINISS<span>AUTO</span></a>
@@ -253,46 +265,64 @@
 
     <section class="hero" id="home">
         <div class="hero-text">
-            <h1>Le Meilleur de <br><span>L'Auto à Larache</span></h1>
-            <p>Vente et location de voitures de haute qualité. Profitez du confort et de la sécurité avec Miniss Auto.</p>
-            <a href="#inventory" class="btn">Voir le Stock</a>
+            <h1 id="hero-title">Trouvez Votre <br><span>Prochaine Voiture</span></h1>
+            <p>Leader de la vente et location de véhicules à Larache. Qualité garantie et prix compétitifs.</p>
+            <a href="#inventory" class="btn">Parcourir le Stock</a>
         </div>
     </section>
 
     <section class="section" id="inventory">
         <div class="section-header">
-            <h2>Nos Véhicules Populaires</h2>
-            <p>Découvrez nos offres spéciales à Larache</p>
+            <h2>Notre Sélection</h2>
+            <p>Le meilleur rapport qualité-prix à Larache</p>
         </div>
         
         <div class="grid">
             <div class="car-card">
-                <img src="download (1).jpg" alt="Peugeot 308" class="car-img">
+                <div class="car-img-container">
+                    <span class="badge">DISPONIBLE</span>
+                    <img src="images/peugeot-308.jpg" alt="Peugeot 308" class="car-img">
+                </div>
                 <div class="car-info">
-                    <span class="tag">VENTE / LOCATION</span>
                     <h3>Peugeot 308</h3>
                     <div class="price">23,000 MAD</div>
-                    <p>Diesel | Automatique | Écran Tactile</p>
+                    <div class="specs">
+                        <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                        <span><i class="fas fa-cog"></i> Automatique</span>
+                    </div>
+                    <a href="https://wa.me/212663198161?text=Info%20sur%20Peugeot%20308" class="btn" style="width: 100%; margin-top: 20px; text-align: center;">Réserver</a>
                 </div>
             </div>
 
             <div class="car-card">
-                <img src="download.jpg" alt="Dacia Logan" class="car-img">
+                <div class="car-img-container">
+                    <span class="badge">POPULAIRE</span>
+                    <img src="images/dacia-logan.jpg" alt="Dacia Logan" class="car-img">
+                </div>
                 <div class="car-info">
-                    <span class="tag">VENTE / LOCATION</span>
                     <h3>Dacia Logan</h3>
                     <div class="price">25,000 MAD</div>
-                    <p>Diesel | Manuelle | Modèle Récent</p>
+                    <div class="specs">
+                        <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                        <span><i class="fas fa-cog"></i> Manuelle</span>
+                    </div>
+                    <a href="https://wa.me/212663198161?text=Info%20sur%20Dacia%20Logan" class="btn" style="width: 100%; margin-top: 20px; text-align: center;">Réserver</a>
                 </div>
             </div>
 
             <div class="car-card">
-                <img src="images.jpg" alt="Seat Ibiza" class="car-img">
+                <div class="car-img-container">
+                    <span class="badge">OFFRE SPÉCIALE</span>
+                    <img src="images/seat-ibiza.jpg" alt="Seat Ibiza" class="car-img">
+                </div>
                 <div class="car-info">
-                    <span class="tag">VENTE / LOCATION</span>
                     <h3>Seat Ibiza</h3>
                     <div class="price">20,000 MAD</div>
-                    <p>Essence | Manuelle | Sport</p>
+                    <div class="specs">
+                        <span><i class="fas fa-gas-pump"></i> Essence</span>
+                        <span><i class="fas fa-cog"></i> Sport</span>
+                    </div>
+                    <a href="https://wa.me/212663198161?text=Info%20sur%20Seat%20Ibiza" class="btn" style="width: 100%; margin-top: 20px; text-align: center;">Réserver</a>
                 </div>
             </div>
         </div>
@@ -301,70 +331,61 @@
     <section class="section" id="contact">
         <div class="contact-container">
             <div class="contact-details">
-                <h3>Contactez-nous</h3>
-                <p>Passez nous voir à Larache pour un essai routier ou réservez par téléphone.</p>
+                <h2 style="margin-bottom: 20px;">Contactez-nous</h2>
+                <p style="margin-bottom: 30px;">Besoin d'aide ? Notre équipe est à votre disposition pour vous conseiller sur Larache.</p>
                 
-                <div class="contact-item">
+                <a href="https://www.google.com/maps/search/Avenue+Mohamed+V+Larache" target="_blank" class="contact-icon-box">
                     <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <strong>Adresse</strong>
-                        <p>Avenue Mohamed V, Centre Ville, Larache</p>
-                    </div>
-                </div>
+                    <span>Avenue Mohamed V, Larache, Maroc</span>
+                </a>
 
-                <div class="contact-item">
+                <a href="tel:+212663198161" class="contact-icon-box">
                     <i class="fas fa-phone-alt"></i>
-                    <div>
-                        <strong>Téléphone</strong>
-                        <p>+212 663-198161</p>
-                    </div>
-                </div>
+                    <span>+212 663-198161</span>
+                </a>
 
-                <div class="contact-item">
+                <a href="mailto:salmanisohaib3@gmail.com" class="contact-icon-box">
                     <i class="fas fa-envelope"></i>
-                    <div>
-                        <strong>Email</strong>
-                        <p>salmanisohaib3@gmail.com</p>
-                    </div>
-                </div>
+                    <span>salmanisohaib3@gmail.com</span>
+                </a>
             </div>
 
-            <form onsubmit="event.preventDefault(); alert('Message envoyé !');">
-                <input type="text" placeholder="Votre Nom" class="form-input" required>
-                <input type="email" placeholder="Votre Email" class="form-input" required>
-                <textarea placeholder="Quelle voiture vous intéresse ?" class="form-input" style="height: 120px;" required></textarea>
-                <button type="submit" class="btn" style="width: 100%; border: none; cursor: pointer;">Envoyer</button>
+            <form onsubmit="event.preventDefault(); alert('Message reçu ! Nous vous contacterons sur WhatsApp ou par email.');">
+                <input type="text" placeholder="Nom Complet" class="form-input" required>
+                <input type="email" placeholder="Email" class="form-input" required>
+                <textarea placeholder="Quelle voiture souhaitez-vous ?" class="form-input" style="height: 120px;" required></textarea>
+                <button type="submit" class="btn" style="width: 100%; cursor: pointer;">Envoyer la demande</button>
             </form>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Miniss Auto Larache. Tous droits réservés.</p>
+        <p>&copy; 2026 Miniss Auto Larache. Votre partenaire de confiance.</p>
     </footer>
 
     <script>
-        // Scroll Animation Setup
+        // Animations setup
         const sr = ScrollReveal({
             origin: 'bottom',
-            distance: '60px',
+            distance: '50px',
             duration: 1000,
-            delay: 200,
+            delay: 100,
             reset: false
         });
 
-        sr.reveal('.hero-text', { origin: 'left' });
+        sr.reveal('.hero-text', { origin: 'left', delay: 300 });
         sr.reveal('.car-card', { interval: 200 });
-        sr.reveal('.contact-container', { delay: 400 });
+        sr.reveal('.contact-container', { delay: 300 });
 
-        // Navbar scroll effect
+        // Change nav background on scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                nav.style.padding = '10px 5%';
-                nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                nav.style.background = "white";
+                nav.style.boxShadow = "0 10px 30px rgba(0,0,0,0.1)";
             } else {
-                nav.style.padding = '20px 5%';
-                nav.style.boxShadow = 'none';
+                nav.style.background = "rgba(255, 255, 255, 0.9)";
+                nav.style.boxShadow = "none";
             }
         });
     </script>
